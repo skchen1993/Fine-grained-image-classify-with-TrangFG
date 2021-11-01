@@ -1,9 +1,7 @@
+NYCU VRDL hw1 : try to used TransFG to do the Fine-grained Recognition
+
 # TransFG: A Transformer Architecture for Fine-grained Recognition
-
-[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/transfg-a-transformer-architecture-for-fine/fine-grained-image-classification-on-cub-200)](https://paperswithcode.com/sota/fine-grained-image-classification-on-cub-200?p=transfg-a-transformer-architecture-for-fine) [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/transfg-a-transformer-architecture-for-fine/fine-grained-image-classification-on-nabirds)](https://paperswithcode.com/sota/fine-grained-image-classification-on-nabirds?p=transfg-a-transformer-architecture-for-fine) [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/transfg-a-transformer-architecture-for-fine/fine-grained-image-classification-on-stanford-1)](https://paperswithcode.com/sota/fine-grained-image-classification-on-stanford-1?p=transfg-a-transformer-architecture-for-fine) [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/transfg-a-transformer-architecture-for-fine/image-classification-on-inaturalist)](https://paperswithcode.com/sota/image-classification-on-inaturalist?p=transfg-a-transformer-architecture-for-fine)
-
 Official PyTorch code for the paper:  [*TransFG: A Transformer Architecture for Fine-grained Recognition*](https://arxiv.org/abs/2103.07976)  
-
 Implementation based on [DeiT](https://arxiv.org/abs/2012.12877) pretrained on ImageNet-1K with distillation fine-tuning will be released soon.
 
 ## Framework
@@ -16,27 +14,9 @@ Implementation based on [DeiT](https://arxiv.org/abs/2012.12877) pretrained on I
 + torchvision 0.6.1
 + ml_collections
 
-## Usage
-### 1. Download Google pre-trained ViT models
-
-* [Get models in this link](https://console.cloud.google.com/storage/vit_models/): ViT-B_16, ViT-B_32...
-```bash
-wget https://storage.googleapis.com/vit_models/imagenet21k/{MODEL_NAME}.npz
-```
-
-### 2. Prepare data
-
-In the paper, we use data from 5 publicly available datasets:
-
-+ [CUB-200-2011](http://www.vision.caltech.edu/visipedia/CUB-200-2011.html)
-+ [Stanford Cars](https://ai.stanford.edu/~jkrause/cars/car_dataset.html)
-+ [Stanford Dogs](http://vision.stanford.edu/aditya86/ImageNetDogs/)
-+ [NABirds](http://dl.allaboutbirds.org/nabirds)
-+ [iNaturalist 2017](https://github.com/visipedia/inat_comp/tree/master/2017)
-
-Please download them from the official websites and put them in the corresponding folders.
-
-### 3. Install required packages
+## Reproduce Submission
+To reproduce the submission, do the following step:
+### 1. Install required packages
 
 Install dependencies with the following command:
 
@@ -44,16 +24,25 @@ Install dependencies with the following command:
 pip3 install -r requirements.txt
 ```
 
-### 4. Train
+### 2. Download pretrained TransFG model
 
-To train TransFG on CUB-200-2011 dataset with 4 gpus in FP-16 mode for 10000 steps run:
++ [Pretrained TransFG model](https://drive.google.com/file/d/1B03DSv1eGXNyAySEdcqcpoboakF-V7y9/view?usp=sharing)
+
+Please download the model and put it into the `output` folder
+
+### 3. used the following command to inference
 
 ```bash
-CUDA_VISIBLE_DEVICES=0,1,2,3 python3 -m torch.distributed.launch --nproc_per_node=4 train.py --dataset CUB_200_2011 --split overlap --num_steps 10000 --fp16 --name sample_run
+python inference.py --test_img_path {testing image path} --pretrained_model_path {TransFG pretrained model path, default is in "output"}
 ```
 
-## Citation
+## Report
++ [Report](https://drive.google.com/file/d/1sQqPq8-r65oI9hdXD6oXyIqFXtdQNsgF/view?usp=sharing)
 
+
+
+
+## Citation
 If you find our work helpful in your research, please cite it as:
 
 ```
