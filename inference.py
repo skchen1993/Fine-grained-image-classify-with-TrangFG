@@ -67,16 +67,16 @@ def main():
     config = CONFIGS["ViT-B_16"]
     config.slide_step = 12
     config.split = 'overlap'
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
     #inference parameter setting
     parser = argparse.ArgumentParser()
-    parser.add_argument("--batch_size", default = 4, help="inference batch size")
-    parser.add_argument("--orderfile_path", default = "testing_img_order.txt", help="testing_img_order.txt's path")
-    parser.add_argument("--classfile_path", default = "classes.txt", help="classes.txt's path")
-    parser.add_argument("--test_img_path", default = "./testing_data", help="testing image folder path")
-    parser.add_argument("--pretrained_model_path", default = "./output/DL_CV_HW1_checkpoint.bin", help="TransFG training model path")
-    parser.add_argument("--device", default = "cuda", help="if no GPU, set it to cpu")
+    parser.add_argument("--batch_size", default = 1, help="inference batch size", type = int)
+    parser.add_argument("--orderfile_path", default = "testing_img_order.txt", help="testing_img_order.txt's path", type = str)
+    parser.add_argument("--classfile_path", default = "classes.txt", help="classes.txt's path", type = str)
+    parser.add_argument("--test_img_path", default = "./testing_data", help="testing image folder path", type = str)
+    parser.add_argument("--pretrained_model_path", default = "./output/DL_CV_HW1_checkpoint.bin", help="TransFG training model path", type = str)
     args = parser.parse_args()
 
     #make csv for helping predict image in order
@@ -113,7 +113,7 @@ def main():
     if pretrained_model_path is not None:
         pretrained_model = torch.load(pretrained_model_path)['model']
         model.load_state_dict(pretrained_model)
-    model.to(args.device)
+    model.to(device)
     print("------model prepared-------")
 
     model.eval()
