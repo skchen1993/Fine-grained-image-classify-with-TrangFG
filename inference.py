@@ -39,11 +39,8 @@ class FineGrainDataset(Dataset):
         if self.test == False:
             img = Image.open(os.path.join(self.root_dir, img_id)).convert(
                 "RGB")  # 取出image id 對應的圖片本人, 並且轉RGB(等等用transform來轉tensor)
-            # y_label = torch.LongTensor(self.annotations.iloc[index, 1])           #取出對應的 image label 並且轉成float tensor
             temp = self.annotations.iloc[index, 1]
             y_label = torch.tensor(self.annotations.iloc[index, 1]).long()
-            # print(y_label)
-            # print("fetch label :", y_label)
             img = self.transform(img)
             return (img, y_label - 1)
         else:
@@ -52,6 +49,7 @@ class FineGrainDataset(Dataset):
             img = self.transform(img)
             return (img, img_id)
 
+
 def make_csv(args):
     test_df = pd.DataFrame(columns=["img_name"])
     f = open(args.orderfile_path)
@@ -59,7 +57,7 @@ def make_csv(args):
     for line in f:
         img_name.append(line.replace("\n", ""))
     test_df["img_name"] = img_name
-    test_df.to_csv (r'test_csv.csv', index = False, header=True)
+    test_df.to_csv(r'test_csv.csv', index=False, header=True)
 
 
 def main():
@@ -69,19 +67,22 @@ def main():
     config.split = 'overlap'
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-
     #inference parameter setting
     parser = argparse.ArgumentParser()
-    parser.add_argument("--batch_size", default = 1, help="inference batch size", type = int)
-    parser.add_argument("--orderfile_path", default = "testing_img_order.txt", help="testing_img_order.txt's path", type = str)
-    parser.add_argument("--classfile_path", default = "classes.txt", help="classes.txt's path", type = str)
-    parser.add_argument("--test_img_path", default = "./testing_data", help="testing image folder path", type = str)
-    parser.add_argument("--pretrained_model_path", default = "./output/DL_CV_HW1_checkpoint.bin", help="TransFG training model path", type = str)
+    parser.add_argument("--batch_size", default=1,
+                        help="inference batch size", type=int)
+    parser.add_argument("--orderfile_path", default="testing_img_order.txt",
+                        help="testing_img_order.txt's path", type=str)
+    parser.add_argument("--classfile_path", default="classes.txt",
+                        help="classes.txt's path", type=str)
+    parser.add_argument("--test_img_path", default="./testing_data",
+                        help="testing image folder path", type=str)
+    parser.add_argument("--pretrained_model_path", default="./output/DL_CV_HW1_checkpoint.bin",
+                        help="TransFG training model path", type=str)
     args = parser.parse_args()
 
     #make csv for helping predict image in order
     make_csv(args)
-
 
     # create lookup table(image id : class label)
     f = open(args.classfile_path)
@@ -104,7 +105,6 @@ def main():
     test_csv_name = "test_csv.csv"
     test_dataset = FineGrainDataset(test_img_path, test_csv_name, test_transform, test=True)
     test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=args.batch_size, shuffle=False)
-
 
     #Pretrained TransFG mdoel prepared
     pretrained_model_path = args.pretrained_model_path
@@ -139,7 +139,6 @@ def main():
         content = imgid[i] + " " + mapping[prediction[i]] + "\n"
         f.write(content)
     f.close()
-
 
 
 if __name__ == "__main__":
