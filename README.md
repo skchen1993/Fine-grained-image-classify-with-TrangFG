@@ -16,7 +16,7 @@ Implementation based on [DeiT](https://arxiv.org/abs/2012.12877) pretrained on I
 
 ## Reproduce Submission
 To reproduce the submission, do the following step:
-### 1. Install required packages
+### 1. Download this project and Install required packages
 
 Install dependencies with the following command:
 
