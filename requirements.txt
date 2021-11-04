@@ -4,3 +4,4 @@ numpy
 tqdm
 tensorboard
 ml-collections
+pandas
