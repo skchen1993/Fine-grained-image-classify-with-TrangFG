@@ -1,4 +1,4 @@
-NYCU VRDL hw1 : try to used TransFG to do the Fine-grained Recognition
+try to used TransFG to do the Fine-grained Recognition
 
 # TransFG: A Transformer Architecture for Fine-grained Recognition
 Official PyTorch code for the paper:  [*TransFG: A Transformer Architecture for Fine-grained Recognition*](https://arxiv.org/abs/2103.07976)  
